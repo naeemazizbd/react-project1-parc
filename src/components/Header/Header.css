@@ -1,0 +1,12 @@
+.image img{
+    height: 100px;
+
+}
+.nav a{
+    text-decoration: none;
+    
+}
+.nav  a:hover {
+    background-color: #fcc100;
+    color: black;
+}
