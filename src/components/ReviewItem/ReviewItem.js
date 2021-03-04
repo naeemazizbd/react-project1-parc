@@ -1,0 +1,18 @@
+import React from 'react';
+
+const ReviewItem = (props) => {
+    const {name,quantity,img}=props.product;
+
+    return (
+        <div className="border-bottom shadow m-4 p-3">
+            <h4>{name}</h4>
+            <img src={img} alt=""/>
+            <p>Quantity: {quantity}</p>
+
+            <button className="btn btn-warning">Remove</button>
+            
+        </div>
+    );
+};
+
+export default ReviewItem;
