@@ -13,7 +13,8 @@ const Product = (props) => {
 
             </div>
             <div className="m-1  ">
-                <h5 className="text-primary"> <Link to={"/product/"+key}>{name}</Link>  </h5>
+                
+                <h5 className="text-primary text-primary "> <Link className="text-decoration-none" to={"/product/"+key}>{name}</Link>  </h5>
                 <p>By: {seller}</p>
                 <h4>Price: ${price}</h4>
                 <p>Stock: {stock} only left in stock</p>

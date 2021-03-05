@@ -1,24 +1,49 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import fakeData from '../../fakeData';
-import { addToDatabaseCart } from '../../utilities/databaseManager';
+import { addToDatabaseCart, getDatabaseCart } from '../../utilities/databaseManager';
 import Cart from '../Cart/Cart';
 import Product from '../Product/Product';
+import { Link } from 'react-router-dom';
 import './Shop.css'
 const Shop = () => {
     const first10=fakeData.slice(0,10);
     const [products, setProduct] = useState(first10);
     const [cart,setCart]=useState([]);
+    useEffect(()=>{
+        const saveCart= getDatabaseCart();
+        const productKeys =Object.keys(saveCart);
+        const previousCart=productKeys.map(existingKey=>{
+            const product= fakeData.find(pd=>pd.key===existingKey);
+            product.quantity=saveCart[existingKey];
+            return product;
+        })
+        setCart(previousCart);
+
+    },[]);
     const handleAddProduct=(product)=>{
-        const newCart=[...cart,product];
+        const toBeAddedKey=product.key;
+        const sameProduct=cart.find(pd=>pd.key===toBeAddedKey);
+        let count=1;
+        let newCart;
+        if (sameProduct){
+             count=sameProduct.quantity+1;
+            sameProduct.quantity=count; 
+            const others=cart.filter(pd=>pd.key!==toBeAddedKey) ;
+            newCart=[...others,sameProduct];
+        }
+        else{
+            product.quantity=1;
+            newCart=[...cart,product];
+        }
+       
         setCart(newCart);
-        const sameProduct=newCart.filter(pd=>pd.key===product.key);
-        const count=sameProduct.length;
+        
         addToDatabaseCart(product.key,count);
 
     }
     
     return (
-        <div className="shop-container container">
+        <div className="twin-container container">
             <div className="product-container m-5">
                 {
                     products.map(pd=><Product 
@@ -29,8 +54,12 @@ const Shop = () => {
                     </Product>)
                 }
             </div>
-            <div className="card-container">
-                <Cart cart={cart}></Cart>
+            <div className="cart-container">
+                <Cart cart={cart}>
+                <Link to="/review">
+                <button className="btn btn-warning border">Review your Products</button>
+                </Link>
+                </Cart>
             </div>
             
             
