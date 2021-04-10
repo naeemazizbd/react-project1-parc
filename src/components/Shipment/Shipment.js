@@ -48,9 +48,9 @@ const Shipment = () => {
   return (
     <div className="row">
       <div className="col-md-6">
-        <form style={{display: shippingData? 'none': 'block'}} className="form-control" onSubmit={handleSubmit(onSubmit)}>
+        <form style={{display: shippingData? 'none': 'block'}}  onSubmit={handleSubmit(onSubmit)}>
 
-          <input className="card" name="name" defaultValue={loginUser.name} ref={register({ required: true })} placeholder="name" />
+          <input className="form-control" name="name" defaultValue={loginUser.name} ref={register({ required: true })} placeholder="name" />
           {errors.name && <span>name is required</span>}
 
           <input className="form-control" name="email" defaultValue={loginUser.email} ref={register({ required: true })} placeholder="email" />
