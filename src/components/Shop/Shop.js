@@ -6,18 +6,38 @@ import Product from '../Product/Product';
 import { Link } from 'react-router-dom';
 import './Shop.css'
 const Shop = () => {
-    const first10=fakeData.slice(0,10);
-    const [products, setProduct] = useState(first10);
+    // const first10=fakeData.slice(0,10);
+    const [products, setProduct] = useState([]);
     const [cart,setCart]=useState([]);
+
+    useEffect(()=>{
+        fetch('https://calm-peak-57009.herokuapp.com/products')
+        .then(res=>res.json())
+        .then(data=>setProduct(data))
+
+    },[])
+
     useEffect(()=>{
         const saveCart= getDatabaseCart();
-        const productKeys =Object.keys(saveCart);
-        const previousCart=productKeys.map(existingKey=>{
-            const product= fakeData.find(pd=>pd.key===existingKey);
-            product.quantity=saveCart[existingKey];
-            return product;
+         const productKeys =Object.keys(saveCart);
+        fetch('https://calm-peak-57009.herokuapp.com/productsBuyKey ',{
+            method: 'POST',
+            headers:{
+                'content-Type': 'application/json'
+            },
+            body: JSON.stringify(productKeys)
         })
-        setCart(previousCart);
+        .then(res=>res.json())
+        .then(data=>setCart(data))
+
+        // if(products.length){
+        //     const previousCart=productKeys.map(existingKey=>{
+        //         const product= products.find(pd=>pd.key===existingKey);
+        //         product.quantity=saveCart[existingKey];
+        //         return product;
+        //     })
+        //     setCart(previousCart);
+        // }
 
     },[]);
     const handleAddProduct=(product)=>{
@@ -45,6 +65,9 @@ const Shop = () => {
     return (
         <div className="twin-container container">
             <div className="product-container m-5">
+                {
+                   products.length===0 &&<p>Loading..</p> 
+                }
                 {
                     products.map(pd=><Product 
                     key={pd.key}    

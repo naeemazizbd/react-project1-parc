@@ -1,9 +1,21 @@
 import React from 'react';
+import fakeData from '../../fakeData';
 
 const Manage = () => {
+
+    const handleAddProduct=()=>{
+        fetch('https://calm-peak-57009.herokuapp.com/addProduct', {
+            method:'POST',
+            headers:{
+                'Content-Type':'application/json'
+            },
+            body:JSON.stringify(fakeData)
+        })
+    }
+
     return (
         <div>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi impedit deleniti, tenetur magni voluptates quibusdam id animi voluptatibus! Rem, veritatis. Lorem ipsum dolor sit amet consectetur adipisicing elit. Possimus laudantium ipsam iusto? Ullam officiis eaque, ipsam corrupti optio distinctio natus cum itaque corporis odio quo, fuga eum. Natus, hic laborum!</p>
+            <button onClick={handleAddProduct} className="btn btn-primary">Add Product</button>
             
         </div>
     );
